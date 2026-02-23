@@ -27,3 +27,29 @@ def test_read_builtin_notFound():
     test_file = "non_exist_file.txt"
     with pytest.raises(FileNotFoundError):
         read_from_file_builtin(test_file)
+
+def test_read_from_file_pandas_isDone():
+    test_file = "tests/temp.csv"
+    text = "name,age\nDaryna,19"
+    with open(test_file, "w") as f:
+        f.write(text)
+
+    result = read_from_file_pandas(test_file)
+    assert "Daryna" in result
+    assert "19" in result
+    os.remove(test_file)
+
+def test_read_from_file_pandas_isEmpty():
+    test_file = "tests/temp_empty.csv"
+    text = "id,status"
+    with open(test_file, "w") as f:
+        f.write(text)
+
+    result = read_from_file_pandas(test_file)
+    assert "Empty DataFrame" in result
+    os.remove(test_file)
+
+def test_read_from_file_pandas_notFound():
+    test_file = "non_exist_file.csv"
+    with pytest.raises(FileNotFoundError):
+        read_from_file_pandas(test_file)
